@@ -28,54 +28,10 @@ This project solves these challenges using SAP Integration Suite as the integrat
 
 ---
 
-# Solution Architecture
+## Solution Architecture
+![Architecture Diagram](assets/architecture_diagram.png)
 
-```
-                Client Applications
-                        │
-                        │ HTTPS
-                        ▼
-          SAP API Management (APIM)
- ┌──────────────────────────────────────────┐
- │ OAuth2 │ Quota Policy │ Spike Arrest    │
- │ Response Cache │ Analytics │ Monitoring │
- └──────────────────────────────────────────┘
-                        │
-                        ▼
-             SAP Cloud Integration (CPI)
-
-     Business APIs (Orchestration Layer)
-
-     • Current Weather API
-     • Forecast API
-     • Weather Dashboard API
-     • Weather Alert API
-     • Weather Summary API
-     • Bulk Weather Processing API
-
-                        │
-               ProcessDirect Calls
-
-     Reusable Integration Services
-
-     • FETCH_GEOCODE
-     • FETCH_CURRENT_WEATHER
-     • FETCH_FORECAST
-     • GENERATE_ALERTS
-     • GENERATE_WEATHER_SUMMARY
-
-                        │
-                        ▼
-         Google Cloud Platform Services
-
-     • Geocoding API
-     • Weather API
-     • Gemini API
-```
-
----
-
-# API Catalog
+### API Catalog
 
 | API | Method | Description |
 |-----|--------|-------------|
@@ -86,9 +42,8 @@ This project solves these challenges using SAP Integration Suite as the integrat
 | /weather/alerts | GET | Retrieve weather alerts |
 | /weather/bulk | POST | Bulk weather processing |
 
----
-
-# Internal Reusable Services
+### Internal Reusable Services
+![Integration Suite Diagram](assets/Integration_Suite.png)
 
 The solution follows a modular architecture where primary IFlows with sender HTTP endpoint reuses internal flows via ProcessDirect adapter.
 
@@ -102,9 +57,7 @@ The solution follows a modular architecture where primary IFlows with sender HTT
 
 This design minimizes duplication and enables multiple APIs to reuse the same integration components.
 
----
-
-# Caching Strategy
+### Caching Strategy
 
 The solution implements a two-layer caching strategy.
 
@@ -127,9 +80,7 @@ Purpose:
 - Minimize Google API usage and cost optimization
 - Failover Resiliency
 
----
-
-# Exception Handling
+### Exception Handling
 
 The platform handles different failure scenarios gracefully.
 
@@ -144,7 +95,7 @@ Bulk APIs return partial-success responses whenever possible instead of failing 
 
 ---
 
-# Project Status
+## Project Status
 
 Current Implementation
 
@@ -161,7 +112,7 @@ Current Implementation
 
 ---
 
-# Future Enhancements
+## Future Enhancements
 
 - Scheduled weather notifications
 - Redis caching
@@ -170,7 +121,7 @@ Current Implementation
 
 ---
 
-# Author
+## Author
 
 **Monish Soni**
 
