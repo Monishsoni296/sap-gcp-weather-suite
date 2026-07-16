@@ -9,18 +9,17 @@ This directory contains the SAP Integration Suite (Cloud Integration) artifacts 
 ```text
 iflows/
 ├── main-iflows/         # Core end-to-end orchestration iFlows
-|   ├── bulk_weather_processing/         # Core end-to-end orchestration iFlows
-|   ├── get_current_weather/         # Core end-to-end orchestration iFlows
-|   ├── get_current_weather_summary/         # Core end-to-end orchestration iFlows
-|   ├── get_upcoming_forecast/         # Core end-to-end orchestration iFlows
-|   ├── get_weather_alert/         # Core end-to-end orchestration iFlows
-|   ├── get_weather_dashboard/         # Core end-to-end orchestration iFlows
-|   ├── main-iflows/         # Core end-to-end orchestration iFlows
+|   ├── bulk_weather_processing/         # /weather/bulk
+|   ├── get_current_weather/             # /weather/current
+|   ├── get_current_weather_summary/     # /weather/summary
+|   ├── get_upcoming_forecast/           # /weather/forecast
+|   ├── get_weather_alert/               # /weather/alert
+|   ├── get_weather_dashboard/           # /weather/dashboard
 ├── modular-iflows/      # Reusable sub-processes and utility iFlows
-|   ├── fetch_address/         # Core end-to-end orchestration iFlows
-|   ├── fetch_coordinates/         # Core end-to-end orchestration iFlows
-|   ├── fetch_gemini_response/         # Core end-to-end orchestration iFlows
-|   ├── fetch_weather_alert/         # Core end-to-end orchestration iFlows
-|   ├── gcp_weather_fetch/         # Core end-to-end orchestration iFlows
-└────── gcp_weather_forecast/         # Core end-to-end orchestration iFlows
+|   ├── fetch_address/                   # Calls GCP Geocode API (Reverse lookup)
+|   ├── fetch_coordinates/               # Calls GCP Geocode API (Forward lookup)
+|   ├── fetch_gemini_response/           # Calls GCP Gemini AI (Generative summaries)
+|   ├── fetch_weather_alert/             # Calls GCP Weather API (Severe weather alerts)
+|   ├── gcp_weather_fetch/               # Calls GCP Weather API (Real-time data)     
+└────── gcp_weather_forecast/            # Calls GCP Weather API (Paginated multi-day loop)
 ```
