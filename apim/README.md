@@ -90,11 +90,11 @@ All policies support environment-specific configuration:
 
 Refer to `policies/README.md` for detailed configuration guidance for each policy.
 
-## 📝 License
+### 📝 License
 
 Add your license information here.
 
-## 🤝 Contributing
+### 🤝 Contributing
 
 Add contribution guidelines here.
 
