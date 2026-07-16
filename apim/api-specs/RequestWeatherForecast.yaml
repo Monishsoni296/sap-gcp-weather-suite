@@ -1,0 +1,411 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Weather Forecast API
+  description: >-
+    <p>API for retrieving Weather Forecast data based on location or
+    coordinates.</p>
+  x-targetEndpoint: >-
+    https://trial-ino2182p.it-cpitrial03-rt.cfapps.ap21.hana.ondemand.com/http/weather
+servers:
+  - url: >-
+      https://trial-ino2182p-trial.integrationsuitetrial-apim.ap21.hana.ondemand.com:443/weather
+tags: []
+paths:
+  /current:
+    get:
+      tags:
+        - Current Forecast
+      description: <p>Current weather forecast for input address or coordinates</p>
+      parameters:
+        - name: loc
+          in: query
+          description: 'Location name (e.g., Indore, sector 62 Noida)'
+          required: false
+          schema:
+            type: string
+        - name: lat
+          in: query
+          description: Latitude coordinate (-90 to 90)
+          required: false
+          schema:
+            type: string
+        - name: lng
+          in: query
+          description: Longitude coordinate (-180 to 180)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful current weather response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentWeatherResponse'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /summary:
+    get:
+      tags:
+        - Current Forecast Summary
+      description: <p>Current weather forecast summary for input address or coordinates</p>
+      parameters:
+        - name: loc
+          in: query
+          description: 'Location name (e.g., Indore, sector 62 Noida)'
+          required: false
+          schema:
+            type: string
+        - name: lat
+          in: query
+          description: Latitude coordinate (-90 to 90)
+          required: false
+          schema:
+            type: string
+        - name: lng
+          in: query
+          description: Longitude coordinate (-180 to 180)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful current weather forecast summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentWeatherSummary'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /forecast:
+    get:
+      tags:
+        - Daily or hourly forecast
+      description: <p>Daily orhourly weather forecast for input address or coordinates</p>
+      parameters:
+        - name: loc
+          in: query
+          description: 'Location name (e.g., Indore, sector 62 Noida)'
+          required: false
+          schema:
+            type: string
+        - name: lat
+          in: query
+          description: Latitude coordinate (-90 to 90)
+          required: false
+          schema:
+            type: string
+        - name: lng
+          in: query
+          description: Longitude coordinate (-180 to 180)
+          required: false
+          schema:
+            type: string
+        - name: units
+          in: query
+          description: days or hours
+          required: true
+          schema:
+            type: string
+        - name: unitsToForecast
+          in: query
+          description: number of days (at most 10) or hours (atmost 240)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful weather forecast
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherForecastResponse'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /alert:
+    get:
+      tags:
+        - Weather Alert
+      description: <p>Weather alert for input address or coordinates</p>
+      parameters:
+        - name: loc
+          in: query
+          description: 'Location name (e.g., Indore, sector 62 Noida)'
+          required: false
+          schema:
+            type: string
+        - name: lat
+          in: query
+          description: Latitude coordinate (-90 to 90)
+          required: false
+          schema:
+            type: string
+        - name: lng
+          in: query
+          description: Longitude coordinate (-180 to 180)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful weather forecast
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherAlertResponse'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /dashboard:
+    get:
+      tags:
+        - Dashboard
+      description: >-
+        <p>All required forecast information for input address or
+        coordinates</p>
+      parameters:
+        - name: loc
+          in: query
+          description: 'Location name (e.g., Indore, sector 62 Noida)'
+          required: false
+          schema:
+            type: string
+        - name: lat
+          in: query
+          description: Latitude coordinate (-90 to 90)
+          required: false
+          schema:
+            type: string
+        - name: lng
+          in: query
+          description: Longitude coordinate (-180 to 180)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful weather dashboard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherDashboardResponse'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bulk:
+    post:
+      tags:
+        - Bulk Forecast Processing
+      summary: Retrieve weather forecast data for multiple locations in bulk
+      description: >-
+        <p>Accepts a list of target locations and request configurations to
+        trigger parallel orchestrations.</p>
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkRequest'
+      responses:
+        '200':
+          description: Successful bulk forecast orchestration response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkResponse'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    BulkRequest:
+      type: object
+      required:
+        - requestType
+        - locations
+      properties:
+        requestType:
+          type: string
+          description: 'Type of request i.e., current/alert/forecast'
+          example: current
+        forecastType:
+          type: string
+          description: hours or days
+          example: hours
+        forecastUnits:
+          type: string
+          description: up to 240 hours or 10 days
+          example: 10
+        locations:
+          type: array
+          description: List of locations
+          items:
+            $ref: '#/components/schemas/BulkLocationItem'
+    BulkLocationItem:
+      type: object
+      required:
+        - locationId
+        - address
+      properties:
+        locationId:
+          type: string
+          description: Unique tracking identifier or anchor key for the location.
+          example: DEL
+        address:
+          type: string
+          description: The textual address name to map or convert into coordinates.
+          example: 'Delhi, India'
+    BulkResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of request i.e success/partial success/failure
+        requestedLocations:
+          type: string
+          description: Number of requested locations
+        successfulLocations:
+          type: string
+          description: Number of successful responses
+        failedLocations:
+          type: string
+          description: Number of unsuccessful responses
+        generatedAt:
+          type: string
+          description: timestamp
+        results:
+          type: array
+          description: List of response
+          items:
+            type: object
+    WeatherDashboardResponse:
+      type: object
+      properties:
+        address:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: string
+            lng:
+              type: string
+        timeZone:
+          type: string
+        timestamp:
+          type: string
+        currentWeather:
+          type: object
+        alert:
+          type: object
+        hourlyForecast:
+          type: object
+        dailyForecast:
+          type: object
+    WeatherAlertResponse:
+      type: object
+      properties:
+        address:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: string
+            lng:
+              type: string
+        unitsSystem:
+          type: string
+        timestamp:
+          type: string
+        alert:
+          type: object
+    WeatherForecastResponse:
+      type: object
+      properties:
+        address:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: string
+            lng:
+              type: string
+        unitsSystem:
+          type: string
+        timestamp:
+          type: string
+        forecast:
+          type: object
+    CurrentWeatherResponse:
+      type: object
+      properties:
+        address:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: string
+            lng:
+              type: string
+        unitsSystem:
+          type: string
+        timestamp:
+          type: string
+        weather:
+          type: object
+    CurrentWeatherSummary:
+      type: object
+      properties:
+        address:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: string
+            lng:
+              type: string
+        unitsSystem:
+          type: string
+        timestamp:
+          type: string
+        summary:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            status:
+              type: string
+            details:
+              type: string
+            timestamp:
+              type: string
+definitions: {}

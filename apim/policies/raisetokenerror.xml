@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" xmlns="http://www.sap.com/apimgmt">
+    <FaultResponse>
+        <Set>
+            <Payload contentType="application/json" variablePrefix="@" variableSuffix="#">sapapim.tokenresponse.content</Payload>
+            <StatusCode>{sapapim.tokenresponse.status.code}</StatusCode>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

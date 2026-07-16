@@ -1,0 +1,7 @@
+#Thu Jun 18 08:11:43 UTC 2026
+Gemini\ CamelHttpUri=https\://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview\:generateContent
+Gemini\ Model=gemini-3.1-flash-lite-preview
+Gemini\ Query=key\=${property.Authorization}
+ProcessDirect_Address=/fetchGeminiResponse
+Secure\ Parameter\ Name=Gemini_API_Key
+enableLogPayload=false

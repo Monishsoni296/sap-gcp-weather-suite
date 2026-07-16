@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceCallout async="false" continueOnError="false" enabled="true" xmlns="http://www.sap.com/apimgmt">
+    <Request clearPayload="true">
+        <Set>
+            <Headers>
+            <Header name="Authorization">{sapapim.Authorization}</Header>
+            </Headers>
+            <Verb>POST</Verb>
+        </Set>
+        <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+    </Request>
+    <Response>sapapim.tokenresponse</Response>
+    <Timeout>30000</Timeout>
+    <HTTPTargetConnection>
+        <!-- Oauth_token_generation_url can be found in the Account->Security->Oauth, in branding tab 
+        URL should be https://<Oauth_token_generation_url>?grant_type=client_credentials -->
+        <URL>https://trial-ino2182p.authentication.ap21.hana.ondemand.com/oauth/token?grant_type=client_credentials</URL>
+    </HTTPTargetConnection>
+</ServiceCallout>

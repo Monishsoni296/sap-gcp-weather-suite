@@ -1,0 +1,9 @@
+<!-- This policy throttles the number of requests processed by an API Proxy protecting against performance lags and downtime -->
+<SpikeArrest async="true" continueOnError="false" enabled="true" xmlns="http://www.sap.com/apimgmt">
+	<!-- can be used to uniquely identify an application or a client -->
+	<Identifier ref="request.header.some-header-name"/>
+	<!-- used to modify the impact of a single request on the calculation of spike arrest limit. If the weight is 5 and the spike limit is 10 per minute then only 2 requests are permitted to this proxy in one minute -->
+	<MessageWeight ref="request.header.weight"/>
+	<Rate>30pm</Rate>
+	<UseEffectiveCount>true</UseEffectiveCount>
+</SpikeArrest>

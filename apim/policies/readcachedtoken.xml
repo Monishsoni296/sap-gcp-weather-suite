@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<LookupCache async="false" continueOnError="false" enabled="true" xmlns="http://www.sap.com/apimgmt">
+    <CacheKey>
+        <KeyFragment>accesstoken</KeyFragment>
+    </CacheKey>
+    <Scope>Exclusive</Scope>
+    <AssignTo>sapapim.accessToken</AssignTo>
+</LookupCache>

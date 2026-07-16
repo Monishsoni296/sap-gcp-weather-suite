@@ -1,0 +1,12 @@
+<ResponseCache async="false" continueOnError="false" enabled="true" xmlns="http://www.sap.com/apimgmt">
+	<CacheKey>
+		<KeyFragment ref="request.header.to"/>
+        <KeyFragment ref="proxy.pathsuffix"/>
+        <KeyFragment ref="request.querystring"/>
+	</CacheKey>
+	<ExpirySettings>
+		<TimeoutInSeconds ref="">3600</TimeoutInSeconds>
+	</ExpirySettings>
+	<SkipCacheLookup>request.header.InvalidateCache = "true"</SkipCacheLookup>
+	<SkipCachePopulation></SkipCachePopulation>
+</ResponseCache>

@@ -1,0 +1,11 @@
+#Wed Jul 15 21:05:50 UTC 2026
+Data\ Store\ Entry\ ID=${property.CacheEntryID}
+Data\ Store\ Name=Weather_Alerts_Backup
+Enable\ Logging=false
+Expiration\ Period=2
+Latitude=${headers.Latitude}
+Longitude=${headers.Longitude}
+Process\ Direct_Adr=/fetchAlert
+Retention\ Threshold\ for\ Alerting=1
+Secure\ Parameter=GCP_API_Key
+api-key=${property.Authorization}

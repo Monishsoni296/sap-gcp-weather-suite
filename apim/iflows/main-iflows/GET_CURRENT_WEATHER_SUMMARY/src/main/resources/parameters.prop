@@ -1,0 +1,7 @@
+#Wed Jul 15 21:07:47 UTC 2026
+Fetch\ Location\ Address=/fetchAddress
+ProcessDrect\ Address=/weather/summary
+enableLogPayload=false
+fetchAlert_Addr=/fetchWeather
+fetchCoordinates_Address=/fetchCoord
+fetchGeminiResp_Adr=/fetchGeminiResponse
