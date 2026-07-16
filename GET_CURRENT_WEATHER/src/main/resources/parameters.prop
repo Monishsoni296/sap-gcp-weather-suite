@@ -1,0 +1,6 @@
+#Wed Jul 15 21:07:16 UTC 2026
+Address=/weather/current
+Fetch\ Coordinates\ Address=/fetchCoord
+Fetch\ Location\ Address=/fetchAddress
+Fetch\ currentWeather\ Address=/fetchWeather
+enableLogPayload=false
