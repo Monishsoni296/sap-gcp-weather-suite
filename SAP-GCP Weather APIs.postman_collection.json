@@ -1,0 +1,504 @@
+{
+  "info": {
+    "_postman_id": "ca2f367e-768a-4ef5-b95a-8d13b6ed47ca",
+    "name": "SAP-GCP Weather APIs",
+    "description": "Middleware layer built using SAP Integration Suite to abstract and combine GCP weather, geocode and Gemini API into secure and scalable REST endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29507848",
+    "_collection_link": "https://go.postman.co/collection/29507848-ca2f367e-768a-4ef5-b95a-8d13b6ed47ca?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Current Forecast",
+      "item": [
+        {
+          "name": "Get Forecast by Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/current?loc={{location}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "current"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                }
+              ]
+            },
+            "description": "## Get Forecast by Address\n\nRetrieves the **current weather forecast** for a specified location using a human-readable address string.\n\n### Endpoint\n\n`GET {{baseUrl}}/current`\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `loc` | string | Yes | The location address to fetch weather for (e.g. `\"Indore, Madhya Pradesh, India\"`). Mapped to the `{{location}}` variable. |\n| `units` | string | No | Imperial or Metric (Metric by default) |\n\n### Response\n\nReturns a JSON object with the following fields:\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `address` | string | Resolved address string for the queried location. |\n| `coordinates.lat` | string | Latitude of the resolved location. |\n| `coordinates.lng` | string | Longitude of the resolved location. |\n| `unitsSystem` | string | Unit system used (e.g. `METRIC`). |\n| `timestamp` | string | ISO 8601 timestamp of the weather observation. |\n| `weather.temperature` | string | Current temperature with unit (e.g. `\"30 CELSIUS\"`). |\n| `weather.humidity` | integer | Relative humidity percentage. |\n| `weather.description.iconUri` | string | URI for the weather condition icon. |\n| `weather.description.description` | string | Human-readable weather condition (e.g. `\"Partly cloudy\"`). |\n| `weather.windSpeed` | integer | Wind speed value. |\n| `weather.windDirection` | string | Wind direction (e.g. `\"275 WEST\"`). |\n| `weather.precipitation.type` | string | Type of precipitation (e.g. `\"RAIN\"`). |\n| `weather.precipitation.percent` | integer | Probability of precipitation (%). |\n| `weather.visibility` | string | Visibility distance (e.g. `\"16 KILOMETERS\"`). |\n| `weather.uvIndex` | integer | UV index value. |\n| `weather.cloudCover` | integer | Cloud cover percentage. |\n| `weather.isDaytime` | boolean | Whether it is currently daytime at the location. |\n\n### Example Response\n\n``` json\n{\n  \"address\": \"Indore, Madhya Pradesh, India\",\n  \"coordinates\": {\n    \"lat\": \"22.7195687\",\n    \"lng\": \"75.8577258\"\n  },\n  \"unitsSystem\": \"METRIC\",\n  \"timestamp\": \"2026-07-16T19:18:02.036391096+05:30[Asia/Calcutta]\",\n  \"weather\": {\n    \"temperature\": \"30 CELSIUS\",\n    \"humidity\": 57,\n    \"description\": {\n      \"iconUri\": \"https://maps.gstatic.com/weather/v1/partly_clear\",\n      \"description\": \"Partly cloudy\"\n    },\n    \"windSpeed\": 13,\n    \"windDirection\": \"275 WEST\",\n    \"precipitation\": {\n      \"type\": \"RAIN\",\n      \"percent\": 7\n    },\n    \"visibility\": \"16 KILOMETERS\",\n    \"uvIndex\": 0,\n    \"cloudCover\": 61,\n    \"isDaytime\": false\n  }\n}\n\n ```\n\n### Variables Used\n\n| Variable | Description |\n| --- | --- |\n| `{{baseUrl}}` | Base URL of the SAP-GCP Weather API service. |\n| `{{location}}` | The address/location string to query weather for. |"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Forecast by Coordinates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/current?lat={{lat}}&lng={{lng}}&unitsSystem={{units}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "current"
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "{{lat}}",
+                  "description": "Latitude coordinate"
+                },
+                {
+                  "key": "lng",
+                  "value": "{{lng}}",
+                  "description": "Longitude coordinate"
+                },
+                {
+                  "key": "unitsSystem",
+                  "value": "{{units}}"
+                }
+              ]
+            },
+            "description": "## Get Forecast by Coordinates\n\nRetrieves the current weather forecast for a specific geographic location identified by its latitude and longitude coordinates.\n\n### Base URL\n\n`{{baseUrl}}`\n\n### Authentication\n\nThis request requires an API key passed via the `x-api-key` header (use the `{{apiKey}}` variable).\n\n---\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `lat` | number | Yes | Latitude of the target location (e.g. `28.6139` for New Delhi). Use the `{{lat}}` variable. |\n| `lng` | number | Yes | Longitude of the target location (e.g. `77.2090` for New Delhi). Use the `{{lng}}` variable. |\n| `unitsSystem` | string | No | Unit system for the response values. Accepted values: `METRIC`, `Imperial`. Defaults to `METRIC`. Use the `{{units}}` variable. |\n\n---\n\n### Response\n\nReturns a JSON object with the current weather conditions at the specified coordinates.\n\n**Sample Response (200 OK)**\n\n``` json\n{\n  \"address\": \"J675+HJ6, Kartavya Path, Central Secretariat, New Delhi, Delhi 110011, India\",\n  \"coordinates\": {\n    \"lat\": \"28.6139\",\n    \"lng\": \"77.2090\"\n  },\n  \"unitsSystem\": \"METRIC\",\n  \"timestamp\": \"2026-07-16T19:42:15.752398322+05:30[Asia/Calcutta]\",\n  \"weather\": {\n    \"temperature\": \"37.7 CELSIUS\",\n    \"humidity\": 40,\n    \"description\": {\n      \"iconUri\": \"https://maps.gstatic.com/weather/v1/mostly_cloudy_night\",\n      \"description\": \"Mostly cloudy\"\n    },\n    \"windSpeed\": 5,\n    \"windDirection\": \"293 WEST_NORTHWEST\",\n    \"precipitation\": {\n      \"type\": \"RAIN\",\n      \"percent\": 10\n    },\n    \"visibility\": \"16 KILOMETERS\",\n    \"uvIndex\": 0,\n    \"cloudCover\": 88,\n    \"isDaytime\": false\n  }\n}\n\n ```\n\n**Response Fields**\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `address` | string | Resolved human-readable address for the coordinates |\n| `coordinates.lat` | string | Latitude used in the request |\n| `coordinates.lng` | string | Longitude used in the request |\n| `unitsSystem` | string | Unit system applied (`METRIC` or `Imperial`) |\n| `timestamp` | string | ISO 8601 timestamp of the weather observation |\n| `weather.temperature` | string | Current temperature with unit |\n| `weather.humidity` | number | Relative humidity percentage |\n| `weather.description.description` | string | Human-readable weather condition |\n| `weather.description.iconUri` | string | URL of the weather condition icon |\n| `weather.windSpeed` | number | Wind speed in the selected unit system |\n| `weather.windDirection` | string | Wind direction in degrees and compass label |\n| `weather.precipitation.type` | string | Type of precipitation (e.g. `RAIN`) |\n| `weather.precipitation.percent` | number | Probability of precipitation (%) |\n| `weather.visibility` | string | Visibility distance with unit |\n| `weather.uvIndex` | number | UV index at the time of observation |\n| `weather.cloudCover` | number | Cloud cover percentage |\n| `weather.isDaytime` | boolean | `true` if the observation is during daytime |"
+          },
+          "response": []
+        }
+      ],
+      "description": "GCP Geocoding and Weather API abstraction — current weather forecast for input address or coordinates."
+    },
+    {
+      "name": "Current Forecast Summary",
+      "item": [
+        {
+          "name": "Get Forecast Summary by Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/summary?loc={{location}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                }
+              ]
+            },
+            "description": "Returns a concise, human-readable weather summary for a given address or location string.\n\n## Endpoint\n\n`GET {{baseUrl}}/summary`\n\n## Query Parameters\n\n| Parameter | Required | Description |\n| --- | --- | --- |\n| `loc` | Yes | The location to retrieve the forecast summary for. Accepts a human-readable address string (e.g. `Indore, Madhya Pradesh, India`). Mapped to the `{{location}}` variable. |\n\n## Response\n\nReturns a JSON object with the following fields:\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `address` | string | Resolved address for the provided location. |\n| `coordinates` | object | Latitude (`lat`) and longitude (`lng`) of the resolved location. |\n| `timestamp` | string | ISO 8601 timestamp of when the summary was generated, including timezone offset. |\n| `summary` | string | A natural-language description of current weather conditions, including temperature, sky conditions, humidity, wind speed and direction, visibility, and chance of rain. |\n\n## Example Response\n\n``` json\n{\n  \"address\": \"Indore, Madhya Pradesh, India\",\n  \"coordinates\": {\n    \"lat\": \"22.7195687\",\n    \"lng\": \"75.8577258\"\n  },\n  \"timestamp\": \"2026-07-16T19:45:36.476494280+05:30[Asia/Calcutta]\",\n  \"summary\": \"It is currently night in Indore with a temperature of 29.7°C and mostly cloudy skies. Conditions are humid at 59% with a light westerly wind of 13 km/h, excellent visibility of 16 km, and a negligible 9% chance of rain.\"\n}\n\n ```\n\n## Variables Used\n\n- `{{baseUrl}}` — Base URL of the SAP-GCP Weather API service.\n    \n- `{{location}}` — The target location string passed as the `loc` query parameter."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Forecast Summary by Coordinates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/summary?lat={{lat}}&lng={{lng}}&unitsSystem=Imperial",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "{{lat}}",
+                  "description": "Latitude coordinate"
+                },
+                {
+                  "key": "lng",
+                  "value": "{{lng}}",
+                  "description": "Longitude coordinate"
+                },
+                {
+                  "key": "unitsSystem",
+                  "value": "Imperial",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Returns a concise, human-readable weather summary for a given address or location string.\n\n## Endpoint\n\n`GET {{baseUrl}}/summary`\n\n## Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `lat` | number | Yes | Latitude of the target location (e.g. `28.6139` for New Delhi). Use the `{{lat}}` variable. |\n| `lng` | number | Yes | Longitude of the target location (e.g. `77.2090` for New Delhi). Use the `{{lng}}` variable. |\n| `unitsSystem` | string | No | Unit system for the response values. Accepted values: `METRIC`, `Imperial`. Defaults to `METRIC`. Use the `{{units}}` variable. |\n\n\n## Response\n\nReturns a JSON object with the following fields:\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `address` | string | Resolved address for the provided location. |\n| `coordinates` | object | Latitude (`lat`) and longitude (`lng`) of the resolved location. |\n| `timestamp` | string | ISO 8601 timestamp of when the summary was generated, including timezone offset. |\n| `summary` | string | A natural-language description of current weather conditions, including temperature, sky conditions, humidity, wind speed and direction, visibility, and chance of rain. |\n\n## Example Response\n\n``` json\n{\n  \"address\": \"Indore, Madhya Pradesh, India\",\n  \"coordinates\": {\n    \"lat\": \"22.7195687\",\n    \"lng\": \"75.8577258\"\n  },\n  \"timestamp\": \"2026-07-16T19:45:36.476494280+05:30[Asia/Calcutta]\",\n  \"summary\": \"It is currently night in Indore with a temperature of 29.7°C and mostly cloudy skies. Conditions are humid at 59% with a light westerly wind of 13 km/h, excellent visibility of 16 km, and a negligible 9% chance of rain.\"\n}\n\n ```\n\n## Variables Used\n\n- `{{baseUrl}}` — Base URL of the SAP-GCP Weather API service.\n    \n- `{{location}}` — The target location string passed as the `loc` query parameter."
+          },
+          "response": []
+        }
+      ],
+      "description": "GCP Gemini API — generate current weather forecast summary for input address or coordinates."
+    },
+    {
+      "name": "Forecast",
+      "item": [
+        {
+          "name": "Get Daily Forecast by Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/forecast?loc={{location}}&units={{dailyForecast}}&unitsToForecast={{forecastUnits}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                },
+                {
+                  "key": "units",
+                  "value": "{{dailyForecast}}",
+                  "type": "text"
+                },
+                {
+                  "key": "unitsToForecast",
+                  "value": "{{forecastUnits}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Retrieves a multi-day daily weather forecast for a specified address or location string.\n\n## Endpoint\n\n`GET {{baseUrl}}/forecast`\n\n## Query Parameters\n\n| Parameter | Variable | Required | Description |\n| --- | --- | --- | --- |\n| `loc` | `{{location}}` | Yes | The address or location string to retrieve the forecast for (e.g., `\"Indore, Madhya Pradesh, India\"`). |\n| `units` | `{{dailyForecast}}` | Yes | The unit system for temperature and weather data (e.g., `METRIC` or `IMPERIAL`). |\n| `unitsToForecast` | `{{forecastUnits}}` | Yes | The number of days to forecast ahead. |\n\n## Response\n\nReturns a JSON object containing:\n\n- **`location`** – Resolved location name.\n    \n- **`coordinates`** – Latitude and longitude of the resolved location.\n    \n- **`unitSystem`** – The unit system used in the response (e.g., `METRIC`).\n    \n- **`forecast`** – An array of daily forecast objects, each containing:\n    - `date` – The forecast date.\n        \n    - `tempMax` / `tempMin` – Maximum and minimum temperatures for the day.\n        \n    - `sunrise` / `sunset` – Sunrise and sunset times with timezone.\n        \n    - `moonPhase` – Current moon phase (e.g., `WAXING_CRESCENT`).\n        \n    - `day` / `night` – Separate day and night condition blocks, each including:\n        - `condition` – Weather condition description (e.g., `Light rain`, `Cloudy`).\n            \n        - `iconUrl` – URL to the weather condition icon.\n            \n        - `humidity` – Humidity percentage.\n            \n        - `uvIndex` – UV index value.\n            \n        - `precipitationProbability` – Probability of precipitation (%).\n            \n        - `precipitationType` – Type of precipitation (e.g., `RAIN`).\n            \n        - `windSpeed` – Wind speed with unit.\n            \n        - `windDirection` – Wind direction in degrees and cardinal direction.\n            \n        - `cloudCover` – Cloud cover percentage.\n            \n\n## Example Response (truncated)\n\n``` json\n{\n  \"location\": \"Indore, Madhya Pradesh, India\",\n  \"coordinates\": {\n    \"latitude\": \"22.7195687\",\n    \"longitude\": \"75.8577258\"\n  },\n  \"unitSystem\": \"METRIC\",\n  \"forecast\": [\n    {\n      \"date\": \"2026-7-16\",\n      \"tempMax\": \"32.9 CELSIUS\",\n      \"tempMin\": \"24.9 CELSIUS\",\n      \"sunrise\": \"2026-07-16T05:50:56+05:30\",\n      \"sunset\": \"2026-07-16T19:14:12+05:30\",\n      \"moonPhase\": \"WAXING_CRESCENT\",\n      \"day\": {\n        \"condition\": \"Light rain\",\n        \"humidity\": 57,\n        \"uvIndex\": 9,\n        \"precipitationProbability\": 35,\n        \"precipitationType\": \"RAIN\",\n        \"windSpeed\": \"18 KILOMETERS_PER_HOUR\",\n        \"windDirection\": \"280 WEST\",\n        \"cloudCover\": 99\n      },\n      \"night\": {\n        \"condition\": \"Cloudy\",\n        \"humidity\": 71,\n        \"precipitationProbability\": 20,\n        \"windSpeed\": \"16 KILOMETERS_PER_HOUR\",\n        \"windDirection\": \"268 WEST\",\n        \"cloudCover\": 99\n      }\n    }\n  ]\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Hourly Forecast by Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/forecast?loc={{location}}&units={{dailyForecast}}&unitsToForecast={{forecastUnits}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                },
+                {
+                  "key": "units",
+                  "value": "{{dailyForecast}}",
+                  "type": "text"
+                },
+                {
+                  "key": "unitsToForecast",
+                  "value": "{{forecastUnits}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Hourly Forecast by Coordinates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/forecast?lat={{lat}}&lng={{lng}}&units={{hourlyForecast}}&unitsToForecast={{forecastUnits}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "{{lat}}"
+                },
+                {
+                  "key": "lng",
+                  "value": "{{lng}}"
+                },
+                {
+                  "key": "units",
+                  "value": "{{hourlyForecast}}"
+                },
+                {
+                  "key": "unitsToForecast",
+                  "value": "{{forecastUnits}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "GCP Weather API abstraction — fetch weather forecast for up to 10 days or 240 hours."
+    },
+    {
+      "name": "Weather Alert",
+      "item": [
+        {
+          "name": "Get Alert by Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alert?loc={{location}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alert"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                }
+              ]
+            },
+            "description": "Retrieves active severe weather alerts for a specified address or location string, using the Google Weather and Geocoding APIs via the SAP Integration Suite middleware.\n\n## Endpoint\n\n`GET {{baseUrl}}/alert`\n\n## Query Parameters\n\n| Parameter | Variable | Required | Description |\n| --- | --- | --- | --- |\n| `loc` | `{{location}}` | Yes | The address or location string to check for active weather alerts (e.g., `\"Indore, Madhya Pradesh, India\"`). |\n\n## Response\n\nReturns a JSON object containing:\n\n- **`address`** – Resolved address string for the queried location.\n- **`coordinates`** – Latitude (`lat`) and longitude (`lng`) of the resolved location.\n- **`alerts`** – An array of active weather alert objects. Each alert contains:\n  - `headline` – Short title or headline of the alert.\n  - `severity` – Severity level of the alert (e.g., `Extreme`, `Severe`, `Moderate`).\n  - `urgency` – Urgency classification (e.g., `Immediate`, `Expected`).\n  - `areas` – Geographic areas affected by the alert.\n  - `event` – Type of weather event (e.g., `Tornado Warning`, `Flash Flood Watch`).\n  - `effective` – ISO 8601 timestamp when the alert becomes effective.\n  - `expires` – ISO 8601 timestamp when the alert expires.\n  - `description` – Detailed description of the alert.\n  - `instruction` – Recommended safety instructions or actions.\n\nIf no active alerts exist for the location, the `alerts` array will be empty.\n\n## Notes\n\n- This endpoint resolves the human-readable address to coordinates internally using the Geocoding API before querying for alerts.\n- Use the `{{location}}` environment variable to set the target location."
+          },
+          "response": []
+        }
+      ],
+      "description": "Google Weather and Geocoding API - get severe alert for input location if any"
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get cumulative info. by Coordinates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alert?loc={{location}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alert"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                }
+              ]
+            },
+            "description": "## Get Cumulative Info by Address\n\nRetrieves a comprehensive, all-in-one weather dashboard for a given geographic location (specified by latitude and longitude). This endpoint aggregates multiple weather data points into a single response, eliminating the need for multiple API calls.\n\n### Response includes\n\n| Section | Description |\n| --- | --- |\n| `currentWeather` | Real-time conditions: temperature (current, min, max), humidity, wind speed & direction, precipitation probability, UV index, cloud cover, visibility, and a human-readable summary |\n| `alert` | Any active weather alerts for the location (e.g. High Temperature Alert) with a message and safety recommendation |\n| `hourlyForecast` | Hour-by-hour forecast for the next 12 hours, including condition, temperature, humidity, UV index, wind, precipitation probability, and cloud cover |\n| `dailyForecast` | Day-by-day forecast for the next 10 days, with max/min temperatures and separate day and night condition breakdowns |\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `lat` | number | Yes | Latitude of the target location (e.g. `28.6139`) |\n| `lng` | number | Yes | Longitude of the target location (e.g. `77.2090`) |\n\n### Variables used\n\n- `{{baseUrl}}` — Base URL of the SAP-GCP Weather API service\n    \n- `{{lat}}` — Latitude of the target location\n    \n- `{{lng}}` — Longitude of the target location\n    \n\n### Example response structure\n\n``` json\n{\n  \"weatherResponse\": {\n    \"address\": \"...\",\n    \"coordinates\": { \"latitude\": \"28.6139\", \"longitude\": \"77.2090\" },\n    \"timeZone\": \"Asia/Calcutta\",\n    \"timestamp\": \"2026-07-16T14:34:53Z\",\n    \"currentWeather\": { ... },\n    \"alert\": {\n      \"alert\": \"High Temperature Alert\",\n      \"message\": \"Temperature is expected to exceed 30°C.\",\n      \"recommendation\": \"Stay hydrated and avoid prolonged exposure to the sun.\"\n    },\n    \"hourlyForecast\": { \"summary\": \"...\", \"forecast\": [ ... ] },\n    \"dailyForecast\": { \"forecast\": [ ... ] }\n  }\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Get cumulative info. by Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alert?loc={{location}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alert"
+              ],
+              "query": [
+                {
+                  "key": "loc",
+                  "value": "{{location}}"
+                }
+              ]
+            },
+            "description": "## Get Cumulative Info by Address\n\nRetrieves a comprehensive, all-in-one weather dashboard for a given geographic location (specified by latitude and longitude). This endpoint aggregates multiple weather data points into a single response, eliminating the need for multiple API calls.\n\n### Response includes\n\n| Section | Description |\n| --- | --- |\n| `currentWeather` | Real-time conditions: temperature (current, min, max), humidity, wind speed & direction, precipitation probability, UV index, cloud cover, visibility, and a human-readable summary |\n| `alert` | Any active weather alerts for the location (e.g. High Temperature Alert) with a message and safety recommendation |\n| `hourlyForecast` | Hour-by-hour forecast for the next 12 hours, including condition, temperature, humidity, UV index, wind, precipitation probability, and cloud cover |\n| `dailyForecast` | Day-by-day forecast for the next 10 days, with max/min temperatures and separate day and night condition breakdowns |\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `loc` | string | Yes | Request address |\n\n### Variables used\n\n- `{{baseUrl}}` — Base URL of the SAP-GCP Weather API service\n    \n- `{{loc}}` — Target location address\n\n### Example response structure\n\n``` json\n{\n  \"weatherResponse\": {\n    \"address\": \"...\",\n    \"coordinates\": { \"latitude\": \"28.6139\", \"longitude\": \"77.2090\" },\n    \"timeZone\": \"Asia/Calcutta\",\n    \"timestamp\": \"2026-07-16T14:34:53Z\",\n    \"currentWeather\": { ... },\n    \"alert\": {\n      \"alert\": \"High Temperature Alert\",\n      \"message\": \"Temperature is expected to exceed 30°C.\",\n      \"recommendation\": \"Stay hydrated and avoid prolonged exposure to the sun.\"\n    },\n    \"hourlyForecast\": { \"summary\": \"...\", \"forecast\": [ ... ] },\n    \"dailyForecast\": { \"forecast\": [ ... ] }\n  }\n}\n\n ```"
+          },
+          "response": []
+        }
+      ],
+      "description": "Generate combine response consisting of 'current weather', 'summary', 'forecast', 'alert' for input location. Single API call for multiple services!!"
+    },
+    {
+      "name": "Bulk Processing",
+      "item": [
+        {
+          "name": "Get weather alert for multiple loc",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"requestType\": \"alert\",\r\n    \"locations\": [\r\n        {\r\n            \"locationId\": \"DEL\", \r\n            \"address\": \"Delhi\"\r\n        },\r\n        {\r\n            \"locationId\": \"BOM\",\r\n            \"address\": \"Mumbai\"\r\n        },\r\n        {\r\n            \"locationId\": \"HYD\",\r\n            \"address\": \"hyderabad\"\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bulk"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get current weather for multiple loc",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"requestType\": \"current\",\r\n    \"locations\": [\r\n        {\r\n            \"locationId\": \"DEL\", \r\n            \"address\": \"Delhi\"\r\n        },\r\n        {\r\n            \"locationId\": \"BOM\",\r\n            \"address\": \"Mumbai\"\r\n        },\r\n        {\r\n            \"locationId\": \"HYD\",\r\n            \"address\": \"hyderabad\"\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bulk"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get daily forecast for multiple loc",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"requestType\": \"forecast\",\r\n    \"forecastUnits\": \"2\",\r\n    \"forecastType\": \"days\",\r\n    \"locations\": [\r\n        {\r\n            \"locationId\": \"DEL\", \r\n            \"address\": \"Delhi\"\r\n        },\r\n        {\r\n            \"locationId\": \"BOM\",\r\n            \"address\": \"Mumbai\"\r\n        },\r\n        {\r\n            \"locationId\": \"HYD\",\r\n            \"address\": \"hyderabad\"\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bulk"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get hourly forecast for multiple loc",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"requestType\": \"forecast\",\r\n    \"forecastUnits\": \"3\",\r\n    \"forecastType\": \"hours\",\r\n    \"locations\": [\r\n        {\r\n            \"locationId\": \"DEL\", \r\n            \"address\": \"Delhi\"\r\n        },\r\n        {\r\n            \"locationId\": \"BOM\",\r\n            \"address\": \"Mumbai\"\r\n        },\r\n        {\r\n            \"locationId\": \"HYD\",\r\n            \"address\": \"hyderabad\"\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bulk"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Single API call to process multiple locations."
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "",
+      "description": "Base URL of the SAP Integration Suite middleware"
+    },
+    {
+      "key": "apiKey",
+      "value": "",
+      "description": "API key for GCP service authentication"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "description": "OAuth2 Bearer access token"
+    },
+    {
+      "key": "address",
+      "value": "",
+      "description": "Human-readable address for geocoding"
+    },
+    {
+      "key": "lat",
+      "value": "",
+      "description": "Latitude coordinate"
+    },
+    {
+      "key": "lng",
+      "value": "",
+      "description": "Longitude coordinate"
+    },
+    {
+      "key": "location",
+      "value": "",
+      "description": "Location as lat/lng or city name"
+    },
+    {
+      "key": "days",
+      "value": "5",
+      "description": "Number of forecast days"
+    },
+    {
+      "key": "temperature",
+      "value": "",
+      "description": "Temperature value for AI insights"
+    },
+    {
+      "key": "conditions",
+      "value": "",
+      "description": "Weather conditions for AI insights"
+    },
+    {
+      "key": "naturalLanguageQuery",
+      "value": "",
+      "description": "Natural language weather question"
+    },
+    {
+      "key": "units",
+      "value": ""
+    }
+  ]
+}
