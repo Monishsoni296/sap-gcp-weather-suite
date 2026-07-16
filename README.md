@@ -21,6 +21,7 @@ sap-gcp-weather-suite/
 ├── assets/                              # Shared assets and diagrams
 ├── iflows/                              # SAP Cloud Integration Flows (iFlows)
 ├── script-collection/                   # Reusable script collections
+├── APIs.postman_collection.json/        # Postman Collection
 └── README.md                            # Root repository documentation
 ```
 ---
