@@ -4,8 +4,8 @@
 ---
 
 ## Overview
-A simplified weather intgration solution built on the **SAP Integration Suite (CPI &amp; APIM)** that unifies **GCP Geocode, Weather and Gemini APIs** services into standardize REST enpoints.
-A secure and scalable integration layer with API orchestration, modular intergration architecture, featuring capablities like **caching, authentication, error handling, monitoring and built-in failover capabilities.**
+A simplified weather integration solution built on the **SAP Integration Suite (CPI &amp; APIM)** that unifies **GCP Geocode, Weather and Gemini APIs** services into standardized REST enpoints.
+A secure and scalable integration layer with API orchestration, modular intergration architecture, featuring capabilities like **caching, authentication, error handling, monitoring and built-in failover capabilities.**
 
 ---
 
@@ -55,7 +55,7 @@ This project solves these challenges using SAP Integration Suite as the integrat
 | /weather/current | GET | Retrieve current weather |
 | /weather/forecast | GET | Retrieve weather forecast |
 | /weather/dashboard | GET | Aggregate current weather, forecast, summary and alerts |
-| /weather/summary | GET | AI-generated readable weathe summary |
+| /weather/summary | GET | AI-generated readable weather summary |
 | /weather/alerts | GET | Retrieve weather alerts |
 | /weather/bulk | POST | Bulk weather processing |
 
@@ -77,21 +77,13 @@ This design minimizes duplication and enables multiple APIs to reuse the same in
 ### Caching Strategy
 
 The solution implements a two-layer caching strategy.
-
-Layer 1
-
+Layer 1: 
 SAP API Management Response Cache Policy
-
-Purpose:
-
-- Reduce repeated client requests
+Purpose:- Reduce repeated client requests
 
 Layer 2
-
 SAP CPI Data Store
-
-Purpose:
-
+Purpose:- 
 - Reduce external API calls
 - Improve response time
 - Minimize Google API usage and cost optimization
@@ -109,6 +101,19 @@ Examples include:
 - Partial failures during bulk processing
 
 Bulk APIs return partial-success responses whenever possible instead of failing the complete request.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* SAP Integration Suite tenant (with Cloud Integration and API Management enabled).
+* Google Cloud Platform (GCP) account with Geocoding, Weather, and Gemini API keys.
+
+### Deployment Steps
+1. **CPI Setup**: Import the integration packages from the `/iflows` directory into your SAP Cloud Integration tenant. Configure your GCP API keys in the CPI secure parameters.
+2. **APIM Setup**: Import the API proxies and policy templates from the `/apim` directory into SAP API Management.
+3. **Testing**: Import the `SAP-GCP Weather APIs.postman_collection.json` file into Postman, update your environment variables (Host, API keys), and start testing the endpoints!
 
 ---
 
