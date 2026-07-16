@@ -9,6 +9,22 @@ A secure and scalable integration layer with API orchestration, modular intergra
 
 ---
 
+## 📁 Repository Structure
+
+```text
+sap-gcp-weather-suite/
+├── apim/                                # SAP API Management configuration & policies
+│   ├── api-specs/                       # OpenAPI 3.0 specifications (Weather API)
+│   ├── policies/                        # API Gateway policies (Rate limiting, OAuth 2.0, Caching)
+|   |── README.md/                       # APIM documentation
+│   └── .gitignore/                      # apim Git ignore rules
+├── assets/                              # Shared assets and diagrams
+├── iflows/                              # SAP Cloud Integration Flows (iFlows)
+├── script-collection/                   # Reusable script collections
+└── README.md                            # Root repository documentation
+```
+---
+
 ## Business Problem
 Many organizations and developers rely on weather information for critical business processes such as:
 - Logistics & Supply Chain
